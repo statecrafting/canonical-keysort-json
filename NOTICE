@@ -1,0 +1,20 @@
+canonical-keysort-json
+Copyright 2026 Bartek Kus
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+--------------------------------------------------------------------------------
+Relicensed source (authorized)
+--------------------------------------------------------------------------------
+
+The canonicalization function and its tests were extracted from the Open
+Agentic Platform (OAP), `crates/canonical-json`, where they carry an SPDX
+header reading `AGPL-3.0-or-later`. Relicensing this extracted source to
+Apache-2.0 is the prerogative of the sole copyright holder (Bartek Kus) and is
+an explicit, authorized act. The extraction is a domain-neutral utility by
+construction: it sorts JSON object keys and holds no Open Agentic Platform
+domain logic.
+
+A forthcoming OAP extraction spec (analogous to spec 219 for tenant-tail)
+formalizes the vend; the interim record is
+`chancery/docs/preliminary/00-extraction-overview.md` and `05-canonical-json.md`.
