@@ -18,4 +18,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Extracted and relicensed Apache-2.0 (by the sole copyright holder) from the
   Open Agentic Platform's `crates/canonical-json`. See `NOTICE`.
 
-[0.1.0]: https://github.com/stagecraft-ing/canonical-keysort-json/releases/tag/v0.1.0
+[0.1.0]: https://github.com/statecrafting/canonical-keysort-json/releases/tag/v0.1.0

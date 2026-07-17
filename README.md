@@ -41,7 +41,7 @@ it sorts keys, it does not do full canonical JSON.
 
 ## Ecosystem
 
-Part of the `stagecraft-ing` reusable-primitive family. It is the leaf
+Part of the `statecrafting` reusable-primitive family. It is the leaf
 dependency of `attest-ledger` (record hashing) and `action-gate` (decision
 serialization), extracted from the Open Agentic Platform and relicensed
 Apache-2.0 by the sole copyright holder (see `NOTICE`). This repo is

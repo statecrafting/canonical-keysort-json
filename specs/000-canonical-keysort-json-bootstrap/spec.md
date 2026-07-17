@@ -28,7 +28,7 @@ references:
 
 ## 1. Purpose
 
-canonical-keysort-json is the leaf of the `stagecraft-ing` reusable-primitive family.
+canonical-keysort-json is the leaf of the `statecrafting` reusable-primitive family.
 It guarantees one thing: a `serde_json::Value` canonicalizes to a
 byte-identical string regardless of `serde_json`'s `preserve_order` feature
 state anywhere in the dependency graph. That byte string is the substrate on
