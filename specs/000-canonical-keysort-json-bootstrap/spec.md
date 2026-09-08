@@ -1,7 +1,7 @@
 ---
 id: "000-canonical-keysort-json-bootstrap"
 title: "canonical-keysort-json bootstrap (deterministic JSON key-ordering library)"
-status: approved
+status: draft
 created: "2026-07-12"
 authors: ["canonical-keysort-json"]
 kind: tooling
