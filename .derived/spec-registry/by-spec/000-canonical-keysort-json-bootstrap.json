@@ -1,0 +1,46 @@
+{
+  "record": {
+    "authors": [
+      "canonical-keysort-json"
+    ],
+    "created": "2026-07-12",
+    "establishes": [
+      {
+        "kind": "file",
+        "path": "Cargo.toml"
+      },
+      {
+        "kind": "file",
+        "path": "src/lib.rs"
+      }
+    ],
+    "id": "000-canonical-keysort-json-bootstrap",
+    "implementation": "complete",
+    "kind": "tooling",
+    "references": [
+      {
+        "role": "context",
+        "unit": {
+          "kind": "file",
+          "path": "README.md"
+        }
+      }
+    ],
+    "risk": "low",
+    "sectionHeadings": [
+      "000: canonical-keysort-json bootstrap",
+      "1. Purpose",
+      "2. Scope",
+      "3. Provenance",
+      "4. The canonical form (normative)",
+      "Non-guarantees",
+      "5. Established units"
+    ],
+    "specPath": "specs/000-canonical-keysort-json-bootstrap/spec.md",
+    "status": "draft",
+    "summary": "Bootstrap spec for the canonical-keysort-json repository: a single-crate library that recursively lexicographically sorts object keys at the JSON serialization boundary, so values serialize byte-identically regardless of serde_json's preserve_order feature. Extracted (relicensed Apache-2.0 by the sole copyright holder) from the Open Agentic Platform's crates/canonical-json. It is the leaf dependency of attest-ledger and action-gate. This spec establishes the crate skeleton and seeds this repo's own spec corpus, which is governed by the pinned spec-spine library.\n",
+    "title": "canonical-keysort-json bootstrap (deterministic JSON key-ordering library)"
+  },
+  "shardHash": "124637d480fd5721bed7d06cb3b4d958cbf0c635f6ba23555f9b8ebbe1f0892b",
+  "specVersion": "1.1.0"
+}
