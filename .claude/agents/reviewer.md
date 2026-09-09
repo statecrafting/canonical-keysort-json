@@ -31,7 +31,7 @@ spec-spine is an installed CLI tool that governs your repo's spec corpus. In you
 | Surface | Path | Key concerns |
 |---------|------|--------------|
 | Spec corpus | `specs/NNN-slug/spec.md` | Frontmatter schema, compiler compatibility, relationship edges, status flips |
-| Your code | `<your source tree>` | Correctness, error handling, public API surface |
+| Your code | `src/` | Correctness, error handling, public API surface |
 | Standard | `standards/spec/` | Contract and constitution alignment |
 | Derived | `.derived/` | Must not be hand-edited; only `spec-spine compile` output |
 
@@ -48,8 +48,9 @@ spec-spine is an installed CLI tool that governs your repo's spec corpus. In you
 ### 1b. Gate Evidence
 
 - Run the gate exactly as `AGENTS.md` "Working the backlog" lists it
-  (`spec-spine compile --check`, `spec-spine index check`,
-  `spec-spine lint --fail-on-warn`, `spec-spine couple --base origin/main --head HEAD`,
+  (`spec-spine check`,
+  `spec-spine lint --fail-on-warn`, `spec-spine couple` against the base ref
+  "$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || echo origin/main)",
   then the stack's own build and tests) and capture the output. A red gate
   is the headline finding; a `couple` refusal names the file and the owning
   spec whose declared edges fail to cover it.
@@ -136,12 +137,12 @@ For each changed file:
 - Mid-build spec edits: [none / legitimate / coherence-guard finding]
 
 ### Gate
-- compile --check: [fresh / stale]  index check: [fresh / stale]
+- check: registry [fresh / stale], index [fresh / stale]
 - lint --fail-on-warn: [clean / N]  couple: [clean / C-001 / C-002]
 - coverage: [N unclaimed]  derived: [clean / stale shards left by the gate]
 
 ### Verification
-- [ ] Builds cleanly (`<your build command>`)
+- [ ] Builds cleanly (`cargo build --locked`)
 - [ ] Tests pass (if applicable)
 - [ ] No new lint warnings
 - [ ] No em dash (U+2014), session link, or AI attribution in authored text

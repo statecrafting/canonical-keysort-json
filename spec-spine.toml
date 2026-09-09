@@ -11,6 +11,20 @@
 # `.github/workflows/govern.yml` run it. There is no npm package here and no
 # npx invocation: CI installs the binary via the published install.sh.
 
+# The binary floor this repository is governed by. The harness calls verbs that
+# do not exist below 0.18.0: `spec-spine check` is the composed freshness read
+# the hooks, `Makefile`'s `gate` target and `govern.yml` all run, and
+# `--fail-on-warn` reaches the compile half only through it. On an older binary
+# those calls are usage errors, and a session would be told its shards are
+# stale when the real fault is the tool.
+#
+# `>=` and not `= "0.18.0"`: a pin that forbids a newer binary would refuse
+# every release after this one for no reason. `Config` derives
+# `deny_unknown_fields`, so a binary predating spec 062 cannot deserialize this
+# key at all and exits 3 with a config error rather than a misleading 2.
+[meta]
+required_version = ">=0.18.0"
+
 [manifest]
 # The crate carries `[package.metadata.canonical-keysort-json].spec = "NNN-slug"`.
 metadata_namespace = "canonical-keysort-json"

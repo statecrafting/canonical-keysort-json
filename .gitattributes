@@ -71,11 +71,13 @@ Dockerfile* text eol=lf
 # behaves exactly as before. Sharding already removes the common conflict, since
 # two PRs touching different specs write disjoint files; this is for the
 # same-shard case. It never replaces the staleness gate: the driver resolves the
-# textual conflict, and `spec-spine index check` on the merge commit is what
+# textual conflict, and `spec-spine check` on the merge commit is what
 # proves the result is what the corpus compiles to.
 #
-# The globs are the kit's, naming the three shard trees rather than a blanket
-# `.derived/**/*.json`, so a future non-shard artifact is not silently swept in.
+# The globs are the kit's, naming the shard trees and the slices artifact
+# rather than a blanket `.derived/**/*.json`, so a future non-shard artifact
+# is not silently swept in.
 .derived/spec-registry/by-spec/*.json merge=spec-spine-derived-regen
 .derived/codebase-index/by-spec/*.json merge=spec-spine-derived-regen
 .derived/codebase-index/by-package/*.json merge=spec-spine-derived-regen
+.derived/codebase-index/slices.json merge=spec-spine-derived-regen

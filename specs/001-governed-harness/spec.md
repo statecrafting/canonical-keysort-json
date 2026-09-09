@@ -1,7 +1,7 @@
 ---
 id: "001-governed-harness"
 title: "The governed harness (spec-spine self-governance and the session kit)"
-status: draft
+status: approved
 created: "2026-09-08"
 authors: ["canonical-keysort-json"]
 kind: tooling
@@ -55,12 +55,23 @@ with nothing to catch it.
 The gate chain, in the order the chain requires, read-only throughout:
 
 ```
-spec-spine compile --check
+spec-spine check --fail-on-unresolved --fail-on-warn
 spec-spine lint --fail-on-warn
-spec-spine index check --fail-on-unresolved
 spec-spine index coverage --fail-on-untraced
 spec-spine couple --base <base> --head HEAD
 ```
+
+`check` (spec-spine 0.18.0, spec 075) is the composed freshness read: it asks
+the question `compile --check` and `index check` asked separately, over both
+committed trees, and returns the more severe of the two verdicts in the order
+`3`, `1`, `2`, `0`. It is additive over the two primitives, which keep their
+flags and their contracts, so the chain checks exactly what it checked before
+and gains one thing: `--fail-on-warn` reaches the compile half, which is only
+callable from the chain through this verb, and a warning-tier violation now
+refuses rather than merely counting (spec 077). `spec-spine.toml` sets
+`[meta] required_version = ">=0.18.0"`, so a binary that predates the verb is
+refused at the call with a config error rather than answering with an exit code
+this chain would misread.
 
 `Makefile`'s `gate` target is the single definition of that chain, and
 `.github/workflows/govern.yml` runs the same target rather than restating it, so
@@ -76,9 +87,10 @@ shard globs by `.gitattributes`.
 
 ## 3. Behavior
 
-**The gate never writes.** `compile --check` compiles in memory and compares
-against the committed shards without writing, so a stale tree is reported rather
-than repaired. A gate that writes repairs what it exists to judge, and if it
+**The gate never writes.** `check` compiles in memory and compares against the
+committed shards without writing, so a stale tree is reported rather than
+repaired; it carries the same never-writes contract as the two primitives it
+composes. A gate that writes repairs what it exists to judge, and if it
 were sequenced after a writing `compile` it would compare the committed shards
 against files the same run had just overwritten and pass forever.
 
@@ -99,7 +111,7 @@ repository does not take the allowlist exemption for it.
 **The merge driver is opt-in per clone** and never replaces the staleness gate.
 It resolves a textual conflict between two branches that both regenerated shards
 by regenerating from the merged tree; what proves the result correct is
-`index check` on the merge commit, which runs whether or not the driver is
+`check` on the merge commit, which runs whether or not the driver is
 registered.
 
 ## 4. Out of scope
@@ -112,3 +124,53 @@ output across platforms, and it is a separate spec.
 Release and publication, which `.github/workflows/release.yml` owns under spec
 000. Ratification of spec 000 itself, which is a human act and not something
 this harness performs.
+
+## 5. Verification
+
+The harness's acceptance is that the gate it installs actually runs and passes,
+and that the three surfaces which must state the same chain still do. The first
+command is the chain itself; the rest are the structural claims sections 2 and 3
+make, each one a thing that would silently rot if the kit were updated by hand.
+
+```verify:cli
+make gate
+test "$(ls .claude/skills | wc -l | tr -d ' ')" = 10
+test -f .claude/settings.json
+test -f .mcp.json
+test -f .githooks/merge-derived-index.sh
+grep -q 'check --fail-on-unresolved --fail-on-warn' Makefile
+grep -q 'index coverage --fail-on-untraced' Makefile
+grep -q 'couple --base' Makefile
+grep -q 'spec-spine check --fail-on-unresolved --fail-on-warn' .github/workflows/govern.yml
+```
+
+`make gate` covers freshness of both committed trees, the conformance lint,
+ownership coverage and the coupling gate, so a failure in any of them fails
+this spec's acceptance. The `grep` assertions are deliberately narrow: they
+pin the verb, not the whole line, because `Makefile` reaches it through
+`$(SPEC_SPINE)` while `govern.yml` names the binary outright.
+
+## 6. Resolved decisions
+
+**2026-09-09: the harness tracks the spec-spine kit at 0.18.0.** The session
+kit under `.claude/` was refreshed from the kit the 0.18.0 release ships, and
+the gate chain in section 2 was restated onto `spec-spine check` with it. Three
+consequences are worth recording, because none is recoverable from the diff
+alone:
+
+- **The chain is not weaker.** `check` composes the two reads it replaces; the
+  gain is `--fail-on-warn` on the compile half, which no chain could reach
+  before. Both flags the kit ships commented out are enabled here, because this
+  corpus passes them today: `index coverage` reports 3/3 source files claimed
+  and the compile emits no warnings.
+- **The skill set shrank from fifteen to ten.** `init` became `/prime`, and
+  `cleanup`, `implement-plan`, `refactor-claude-md`, `research` and
+  `validate-and-fix` were dropped upstream (spec 081) because nothing in the
+  loop referenced them. The ten that remain are byte-identical to the kit, so a
+  future kit update stays a copy rather than a merge.
+- **`govern.yml` keeps one deliberate deviation from the kit.** The kit's
+  `probe` and `build` jobs are omitted, because `.github/workflows/ci.yml`
+  already runs the cargo stack gate with `--locked` on the same triggers and
+  keeping both would run every cargo command twice per pull request. The
+  workflow comment carries the reason and the `hashFiles` finding the probe job
+  exists to hold, so neither is rediscovered.

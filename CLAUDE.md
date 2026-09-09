@@ -30,6 +30,16 @@ cargo clippy --all-targets --locked -- -D warnings   # CI gate, warnings are err
 cargo build --locked
 ```
 
+The governance gate runs through `Makefile`, which is the single definition
+both a local session and `.github/workflows/govern.yml` use:
+
+```sh
+make gate                       # read-only: the whole governed loop, in order
+make refresh                    # writing: recompute the committed shard trees
+make verify SPEC=001            # one spec's declared acceptance
+make fmt clippy build test      # the cargo stack gate through the same file
+```
+
 The toolchain is pinned in `rust-toolchain.toml` (1.92.0 with rustfmt and
 clippy). CI runs every command with `--locked`, so `Cargo.lock` must be
 committed alongside any dependency change.
@@ -77,9 +87,32 @@ active spec via `[package.metadata.canonical-keysort-json].spec`. Specs use
 frontmatter with `establishes` / `references` unit lists; see
 `specs/000-canonical-keysort-json-bootstrap/spec.md` for the shape.
 
-`spec-spine.toml` configures the compiler for when self-governance lands, but
-the wiring is not present yet: there is no `package.json`, no `.derived/`, and
-no `standards/`, so `npx spec-spine compile|lint|index check|couple` will not
-run here today. Treat the `.gitattributes` merge driver for
-`.derived/**/*.json` and the `.derived/**/build-meta.json` gitignore entry as
-forward-looking, not active.
+Self-governance is live. Spec 000 governs what the crate emits; spec 001
+governs the harness that keeps 000 honest. The compiled shard trees under
+`.derived/` are committed, and the gate compares them against the corpus:
+`make gate` is the read-only chain, `make refresh` the writing half. Both the
+`.gitattributes` merge driver and the `.derived/**/build-meta.json` gitignore
+entry are active, not forward-looking.
+
+Governance runs on the published `spec-spine` binary installed on `PATH`.
+There is no `package.json` here and no `npx` invocation. `spec-spine.toml`
+sets `[meta] required_version = ">=0.18.0"`, so a binary too old for the verbs
+the harness calls is refused at the call with a config error rather than
+answering with a misleading exit code. Install or upgrade it with `/setup`.
+
+Read compiled artifacts only through `spec-spine` subcommands, never with
+`jq`, `grep`, `python`, `awk` or `sed` over the shard JSON
+(`.claude/rules/governed-artifact-reads.md`).
+
+`AGENTS.md` is the cross-agent protocol and the authority for the gate command
+list; `.claude/` carries the session harness (ten skills, four agents, four
+rules) and is a byte-identical copy of the spec-spine kit, so a kit update is
+a copy rather than a merge. All of it is claimed by spec 001, which means
+editing `Makefile`, `AGENTS.md`, `CLAUDE.md`, `.claude/**`, `.githooks/**` or
+`.github/workflows/govern.yml` requires editing spec 001 in the same change or
+`spec-spine couple` refuses the pull request.
+
+Never resolve a coupling failure by rewriting a spec to match code already
+written. Surface the contradiction instead; a `Spec-Drift-Waiver:` is a human
+instrument and an agent never writes one on its own authority
+(`.claude/rules/adversarial-prompt-refusal.md`).

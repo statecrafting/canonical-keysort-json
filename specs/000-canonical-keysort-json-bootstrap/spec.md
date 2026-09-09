@@ -1,7 +1,7 @@
 ---
 id: "000-canonical-keysort-json-bootstrap"
 title: "canonical-keysort-json bootstrap (deterministic JSON key-ordering library)"
-status: draft
+status: approved
 created: "2026-07-12"
 authors: ["canonical-keysort-json"]
 kind: tooling
@@ -125,3 +125,20 @@ bytes than the chains that already exist.
 - `Cargo.toml`: the single-crate manifest, Apache-2.0, edition 2024.
 - `src/lib.rs`: `canonicalize_value` and `to_canonical_string` plus their
   tests, including the byte-stability determinism gate.
+
+## 6. Verification
+
+Section 4 is the normative canonical form, and the tests in `src/lib.rs` are
+what hold the implementation to it. Byte stability across key insertion order
+is the one that matters most to downstream ledgers, and it is asserted by
+`to_canonical_string_is_byte_stable_across_key_insertion_order`.
+
+```verify:cli
+cargo fmt --all --check
+cargo clippy --all-targets --locked -- -D warnings
+cargo build --locked
+cargo test --locked
+```
+
+Every command carries `--locked`, so a `Cargo.lock` that drifted from
+`Cargo.toml` fails acceptance rather than being silently resolved.

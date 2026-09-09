@@ -187,8 +187,8 @@
       }
     ],
     "specId": "001-governed-harness",
-    "specStatus": "draft"
+    "specStatus": "approved"
   },
   "schemaVersion": "1.1.0",
-  "shardHash": "905cac37127cdcbb76693a915e64cbbccf3db689799dd1ac8d58cf31628bf30f"
+  "shardHash": "3e654bb122f8e816430b6d49f765d34d449c2c7a47d8d3fafd2faac3553ab45b"
 }

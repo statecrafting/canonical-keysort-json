@@ -56,8 +56,8 @@
       }
     ],
     "specId": "000-canonical-keysort-json-bootstrap",
-    "specStatus": "draft"
+    "specStatus": "approved"
   },
   "schemaVersion": "1.1.0",
-  "shardHash": "366a5463b3a41a857b9c466c6eb53a663a35393abf66599ac68ac53071ca7857"
+  "shardHash": "f14972d48ffc0eda385889c3e8e5128df11f0df0147116139be024c7996e8536"
 }
