@@ -1,0 +1,12 @@
+{
+  "package": {
+    "edition": "2024",
+    "kind": "rust-lib",
+    "name": "canonical-keysort-json",
+    "path": "",
+    "specRef": "000-canonical-keysort-json-bootstrap",
+    "version": "0.1.0"
+  },
+  "schemaVersion": "1.1.0",
+  "shardHash": "bc9e51ccaaf3570e807245d16ab36f0e3faee1ee95bf3d209666f62a66a77aa3"
+}
