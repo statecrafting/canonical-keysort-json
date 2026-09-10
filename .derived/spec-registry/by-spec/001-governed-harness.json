@@ -26,6 +26,14 @@
       },
       {
         "kind": "file",
+        "path": "spec-spine.toml"
+      },
+      {
+        "kind": "file",
+        "path": ".gitattributes"
+      },
+      {
+        "kind": "file",
         "path": ".claude/settings.json"
       },
       {
@@ -38,32 +46,24 @@
       },
       {
         "kind": "directory",
+        "path": ".claude/rules/"
+      },
+      {
+        "kind": "directory",
         "path": ".githooks/"
       },
       {
         "kind": "file",
         "path": ".github/workflows/govern.yml"
+      },
+      {
+        "kind": "file",
+        "path": ".github/workflows/ci.yml"
       }
     ],
     "id": "001-governed-harness",
     "implementation": "complete",
     "kind": "tooling",
-    "references": [
-      {
-        "role": "context",
-        "unit": {
-          "kind": "file",
-          "path": "spec-spine.toml"
-        }
-      },
-      {
-        "role": "context",
-        "unit": {
-          "kind": "file",
-          "path": ".gitattributes"
-        }
-      }
-    ],
     "risk": "medium",
     "sectionHeadings": [
       "001: The governed harness",
@@ -79,6 +79,6 @@
     "summary": "This repository's own governance surface: the spec-spine gate chain, the committed .derived shard trees it compares against, the merge driver that keeps those shards mergeable, and the Claude Code session kit that constrains what an agent may do here. Spec 000 governs what the crate emits; this spec governs what the repository does to keep 000 honest. It exists because 000 section 4 became a normative cross-language contract while nothing mechanically checked that the corpus stating it stayed coherent with the code implementing it.\n",
     "title": "The governed harness (spec-spine self-governance and the session kit)"
   },
-  "shardHash": "a9949f62f40ad6a7ce87906cac0f60c139a76abaa12a6c2058db7d22c03ed178",
+  "shardHash": "eb6b5672132b9ac5e90c4fc1f18c9e044332a49c8997b5ac50f60be7a7b43056",
   "specVersion": "1.2.0"
 }

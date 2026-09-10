@@ -107,10 +107,16 @@ Read compiled artifacts only through `spec-spine` subcommands, never with
 `AGENTS.md` is the cross-agent protocol and the authority for the gate command
 list; `.claude/` carries the session harness (ten skills, four agents, four
 rules) and is a byte-identical copy of the spec-spine kit, so a kit update is
-a copy rather than a merge. All of it is claimed by spec 001, which means
-editing `Makefile`, `AGENTS.md`, `CLAUDE.md`, `.claude/**`, `.githooks/**` or
-`.github/workflows/govern.yml` requires editing spec 001 in the same change or
-`spec-spine couple` refuses the pull request.
+a copy rather than a merge. Spec 001 claims every file the gate judges it by:
+`Makefile`, `AGENTS.md`, `CLAUDE.md`, `.mcp.json`, `spec-spine.toml`,
+`.gitattributes`, `.claude/settings.json`, `.claude/skills/`,
+`.claude/agents/`, `.claude/rules/`, `.githooks/`, `govern.yml` and `ci.yml`.
+Editing any of them requires editing spec 001 in the same change, or
+`spec-spine couple` refuses the pull request. `release.yml` belongs to spec 000.
+
+To enable the derived-artifact merge driver in a fresh clone, run
+`./.githooks/enable-merge-driver.sh` once. It writes only to `.git/config` and
+never replaces the staleness gate.
 
 Never resolve a coupling failure by rewriting a spec to match code already
 written. Surface the contradiction instead; a `Spec-Drift-Waiver:` is a human

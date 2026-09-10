@@ -20,6 +20,7 @@ depends_on: []
 establishes:
   - { kind: file, path: "Cargo.toml" }
   - { kind: file, path: "src/lib.rs" }
+  - { kind: file, path: ".github/workflows/release.yml" }
 references:
   - { unit: { kind: file, path: "README.md" }, role: context }
 ---
@@ -125,6 +126,11 @@ bytes than the chains that already exist.
 - `Cargo.toml`: the single-crate manifest, Apache-2.0, edition 2024.
 - `src/lib.rs`: `canonicalize_value` and `to_canonical_string` plus their
   tests, including the byte-stability determinism gate.
+- `.github/workflows/release.yml`: the tag-gated publish. Spec 001 section 4
+  puts release and publication out of the harness's scope and says this file
+  belongs to spec 000; until 2026-09-09 that sentence was the only thing
+  claiming it, and a claim only prose makes is one the coupling gate cannot
+  enforce.
 
 ## 6. Verification
 

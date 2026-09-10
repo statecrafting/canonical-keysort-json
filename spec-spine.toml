@@ -68,6 +68,15 @@ extra_hashed_inputs = [
   ".mcp.json",
   ".githooks/*.sh",
   "Makefile",
+  # `.gitattributes` registers the merge driver on the shard globs, which is
+  # behavior spec 001 sections 2 and 3 describe, so spec 001 claims the file.
+  # A `file` unit carries no span and only span-backing files enter a shard
+  # hash, so the claim alone left the contents invisible to the ledger and
+  # `lint` refused it as L-008, exactly as it does for `src/lib.rs` below.
+  # Listing it here folds it into the global-inputs scalar: an edit restamps
+  # every shard, which is the right trade for a governance file that changes
+  # about once a year and the wrong one for a tree of source.
+  ".gitattributes",
   # The crate source itself. A `file` unit carries no span, and only
   # span-backing files enter a shard hash, so spec 000's claim on `src/lib.rs`
   # left its contents invisible to the ledger (L-008). That is not tolerable

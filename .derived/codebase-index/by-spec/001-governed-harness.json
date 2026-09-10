@@ -9,6 +9,10 @@
         "source": "spec-edge"
       },
       {
+        "path": ".claude/rules/",
+        "source": "spec-edge"
+      },
+      {
         "path": ".claude/settings.json",
         "source": "spec-edge"
       },
@@ -17,7 +21,15 @@
         "source": "spec-edge"
       },
       {
+        "path": ".gitattributes",
+        "source": "spec-edge"
+      },
+      {
         "path": ".githooks/",
+        "source": "spec-edge"
+      },
+      {
+        "path": ".github/workflows/ci.yml",
         "source": "spec-edge"
       },
       {
@@ -39,6 +51,10 @@
       {
         "path": "Makefile",
         "source": "spec-edge"
+      },
+      {
+        "path": "spec-spine.toml",
+        "source": "spec-edge"
       }
     ],
     "resolvedUnits": [
@@ -53,6 +69,19 @@
         "unit": {
           "kind": "directory",
           "path": ".claude/agents/"
+        }
+      },
+      {
+        "locations": [
+          {
+            "file": ".claude/rules/"
+          }
+        ],
+        "ownership": true,
+        "sourceField": "establishes",
+        "unit": {
+          "kind": "directory",
+          "path": ".claude/rules/"
         }
       },
       {
@@ -92,6 +121,32 @@
         "unit": {
           "kind": "file",
           "path": ".claude/settings.json"
+        }
+      },
+      {
+        "locations": [
+          {
+            "file": ".gitattributes"
+          }
+        ],
+        "ownership": true,
+        "sourceField": "establishes",
+        "unit": {
+          "kind": "file",
+          "path": ".gitattributes"
+        }
+      },
+      {
+        "locations": [
+          {
+            "file": ".github/workflows/ci.yml"
+          }
+        ],
+        "ownership": true,
+        "sourceField": "establishes",
+        "unit": {
+          "kind": "file",
+          "path": ".github/workflows/ci.yml"
         }
       },
       {
@@ -162,24 +217,11 @@
       {
         "locations": [
           {
-            "file": ".gitattributes"
-          }
-        ],
-        "ownership": false,
-        "sourceField": "references",
-        "unit": {
-          "kind": "file",
-          "path": ".gitattributes"
-        }
-      },
-      {
-        "locations": [
-          {
             "file": "spec-spine.toml"
           }
         ],
-        "ownership": false,
-        "sourceField": "references",
+        "ownership": true,
+        "sourceField": "establishes",
         "unit": {
           "kind": "file",
           "path": "spec-spine.toml"
@@ -190,5 +232,5 @@
     "specStatus": "approved"
   },
   "schemaVersion": "1.1.0",
-  "shardHash": "3e654bb122f8e816430b6d49f765d34d449c2c7a47d8d3fafd2faac3553ab45b"
+  "shardHash": "4b4f4278c614f3206ba84d49863eaa9cca819eecf06ed72eab9cd5dbde4be389"
 }
