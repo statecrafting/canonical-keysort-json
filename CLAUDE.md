@@ -110,7 +110,9 @@ rules) and is a byte-identical copy of the spec-spine kit, so a kit update is
 a copy rather than a merge. Spec 001 claims every file the gate judges it by:
 `Makefile`, `AGENTS.md`, `CLAUDE.md`, `.mcp.json`, `spec-spine.toml`,
 `.gitattributes`, `.claude/settings.json`, `.claude/skills/`,
-`.claude/agents/`, `.claude/rules/`, `.githooks/`, `govern.yml` and `ci.yml`.
+`.claude/agents/`, `.claude/rules/`, `.githooks/`, `standards/spec/`,
+`govern.yml` and `ci.yml`. Every path in `[index] extra_hashed_inputs` is owned
+by exactly one spec.
 Editing any of them requires editing spec 001 in the same change, or
 `spec-spine couple` refuses the pull request. `release.yml` belongs to spec 000.
 
