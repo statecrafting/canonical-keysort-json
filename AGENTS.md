@@ -252,10 +252,21 @@ Ratification is a human act. An agent never advances a spec's `status` from
 ratified by the maintainer on 2026-09-09 and are `approved`; a spec authored by
 `/spec` is born `draft` and stays there until a human flips it.
 
-Spec 001 governs this harness. Editing `Makefile`, `AGENTS.md`, `CLAUDE.md`,
-`.claude/**`, `.githooks/**` or `.github/workflows/govern.yml` means editing
-spec 001 in the same change, or `couple` refuses it.
+Spec 001 governs this harness, and claims every file it is judged by: `Makefile`,
+`AGENTS.md`, `CLAUDE.md`, `.mcp.json`, `spec-spine.toml`, `.gitattributes`,
+`.claude/settings.json`, `.claude/skills/`, `.claude/agents/`, `.claude/rules/`,
+`.githooks/`, `.github/workflows/govern.yml` and `.github/workflows/ci.yml`.
+Editing any of them means editing spec 001 in the same change, or `couple`
+refuses it. `.github/workflows/release.yml` belongs to spec 000, which owns
+release and publication.
+
+That list is not shorter than `[index] extra_hashed_inputs` by accident. A file
+that stales the ledger but no spec claims is one the coupling gate cannot
+refuse, which is how an edit to `.claude/rules/` once passed the gate
+untouched.
 
 `.githooks/` carries the opt-in merge driver for the committed shard trees. It
 does nothing until `./.githooks/enable-merge-driver.sh` registers it in your
-clone, and it never replaces the staleness gate.
+clone, and it never replaces the staleness gate. Registration lives in
+`.git/config`, which is not committed, so every clone runs it once; worktrees
+inherit it from the clone they came from.

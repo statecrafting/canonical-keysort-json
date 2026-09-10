@@ -23,14 +23,15 @@ establishes:
   - { kind: file, path: "AGENTS.md" }
   - { kind: file, path: "CLAUDE.md" }
   - { kind: file, path: ".mcp.json" }
+  - { kind: file, path: "spec-spine.toml" }
+  - { kind: file, path: ".gitattributes" }
   - { kind: file, path: ".claude/settings.json" }
   - { kind: directory, path: ".claude/skills/" }
   - { kind: directory, path: ".claude/agents/" }
+  - { kind: directory, path: ".claude/rules/" }
   - { kind: directory, path: ".githooks/" }
   - { kind: file, path: ".github/workflows/govern.yml" }
-references:
-  - { unit: { kind: file, path: "spec-spine.toml" }, role: context }
-  - { unit: { kind: file, path: ".gitattributes" }, role: context }
+  - { kind: file, path: ".github/workflows/ci.yml" }
 ---
 
 # 001: The governed harness
@@ -83,7 +84,15 @@ the change that made them stale.
 the agents, and the rules that constrain what an agent may do. `AGENTS.md` is
 the cross-agent protocol; `CLAUDE.md` is the repository guide. `.githooks/`
 carries the opt-in merge driver for the committed shard trees, registered on the
-shard globs by `.gitattributes`.
+shard globs by `.gitattributes`. `spec-spine.toml` configures the compiler this
+chain runs, including the `[meta]` binary floor section 2 depends on, and
+`.github/workflows/ci.yml` runs the stack half of the gate that `govern.yml`
+deliberately does not duplicate.
+
+Every one of those paths is claimed, not merely referenced. The list in
+`[index] extra_hashed_inputs` already says an edit to any of them should stale
+the ledger; ownership is the other half of that statement, and without it the
+coupling gate has nothing to refuse. Section 6 records what this cost.
 
 ## 3. Behavior
 
@@ -142,6 +151,10 @@ grep -q 'check --fail-on-unresolved --fail-on-warn' Makefile
 grep -q 'index coverage --fail-on-untraced' Makefile
 grep -q 'couple --base' Makefile
 grep -q 'spec-spine check --fail-on-unresolved --fail-on-warn' .github/workflows/govern.yml
+spec-spine registry show 001-governed-harness --json | jq -e '[.establishes[].path] | index("spec-spine.toml")'
+spec-spine registry show 001-governed-harness --json | jq -e '[.establishes[].path] | index(".claude/rules/")'
+spec-spine registry show 001-governed-harness --json | jq -e '[.establishes[].path] | index(".github/workflows/ci.yml")'
+spec-spine registry show 000-canonical-keysort-json-bootstrap --json | jq -e '[.establishes[].path] | index(".github/workflows/release.yml")'
 ```
 
 `make gate` covers freshness of both committed trees, the conformance lint,
@@ -150,7 +163,49 @@ this spec's acceptance. The `grep` assertions are deliberately narrow: they
 pin the verb, not the whole line, because `Makefile` reaches it through
 `$(SPEC_SPINE)` while `govern.yml` names the binary outright.
 
+The four `registry show` assertions hold the ownership this spec claims. They
+read through the CLI and pipe its `--json` answer to `jq`, which
+`.claude/rules/governed-artifact-reads.md` allows explicitly: the shard files
+are never parsed, only the tool's typed reply. Without them, a future edit could
+drop a unit from `establishes` and every other check here would still pass.
+
 ## 6. Resolved decisions
+
+**2026-09-09: the harness claims every file it is judged by.** An audit on the
+merge of the 0.18.0 upgrade found that `couple` passed a commit editing
+`.github/workflows/ci.yml` and `.claude/rules/orchestrator-rules.md` with no
+spec touched at all: it reported "1 path(s) checked" and exited 0. Both files
+sit in `[index] extra_hashed_inputs`, so an edit staled the ledger, but nothing
+owned them and the coupling gate therefore had nothing to refuse. The rules file
+is the one that constrains what an agent may do here, which makes it the worst
+possible thing to leave ungoverned.
+
+Four units joined `establishes` (`spec-spine.toml`, `.gitattributes`,
+`.claude/rules/`, `.github/workflows/ci.yml`), and `spec-spine.toml` and
+`.gitattributes` were promoted out of `references`, where `role: context` had
+recorded that the spec knew about them without holding them. Spec 000 took
+`.github/workflows/release.yml`, which section 4 of this spec had already
+assigned to it in prose.
+
+Two costs are accepted deliberately:
+
+- **`.gitattributes` is over-claimed.** Most of that file is line-ending
+  normalization that has nothing to do with this spec, so a future `*.rs text
+  eol=lf` line will now require editing spec 001. The alternative was a
+  `{ kind: section, ... }` unit, which names a Makefile target, a Markdown
+  heading or a mapping keypath; a flat glob list is none of those, so it would
+  not resolve. A rarely-edited file held whole beats a merge-driver stanza that
+  can be deleted silently. Claiming it also forced a second edit: `lint` refused
+  the bare claim as `L-008`, because a `file` unit carries no span and the
+  contents therefore entered no content hash, so `.gitattributes` joined
+  `[index] extra_hashed_inputs`. That is section 3's `src/lib.rs` argument
+  arriving a second time, on a file section 3 did not anticipate.
+- **The upstream corpus does not do this.** spec-spine references its own
+  `spec-spine.toml` and `ci.yml` as `exemplar` and its rules as `context`
+  without establishing any of them, so this repository is deliberately stricter
+  than the tool it adopts. With two specs and one crate there is no cost to
+  strictness, and the whole reason spec 001 exists is that a contract nothing
+  checks is prose.
 
 **2026-09-09: the harness tracks the spec-spine kit at 0.18.0.** The session
 kit under `.claude/` was refreshed from the kit the 0.18.0 release ships, and

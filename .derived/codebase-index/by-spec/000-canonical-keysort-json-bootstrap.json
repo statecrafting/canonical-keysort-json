@@ -6,6 +6,10 @@
         "source": "manifest-metadata"
       },
       {
+        "path": ".github/workflows/release.yml",
+        "source": "spec-edge"
+      },
+      {
         "path": "Cargo.toml",
         "source": "spec-edge"
       },
@@ -15,6 +19,19 @@
       }
     ],
     "resolvedUnits": [
+      {
+        "locations": [
+          {
+            "file": ".github/workflows/release.yml"
+          }
+        ],
+        "ownership": true,
+        "sourceField": "establishes",
+        "unit": {
+          "kind": "file",
+          "path": ".github/workflows/release.yml"
+        }
+      },
       {
         "locations": [
           {
@@ -59,5 +76,5 @@
     "specStatus": "approved"
   },
   "schemaVersion": "1.1.0",
-  "shardHash": "f14972d48ffc0eda385889c3e8e5128df11f0df0147116139be024c7996e8536"
+  "shardHash": "5800db2e7fe06e6f3adab68fa4687adc2cef0cf45c03cea1e8ea0232fc4ba700"
 }
