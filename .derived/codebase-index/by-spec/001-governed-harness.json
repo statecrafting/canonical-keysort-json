@@ -55,6 +55,10 @@
       {
         "path": "spec-spine.toml",
         "source": "spec-edge"
+      },
+      {
+        "path": "standards/spec/",
+        "source": "spec-edge"
       }
     ],
     "resolvedUnits": [
@@ -108,6 +112,19 @@
         "unit": {
           "kind": "directory",
           "path": ".githooks/"
+        }
+      },
+      {
+        "locations": [
+          {
+            "file": "standards/spec/"
+          }
+        ],
+        "ownership": true,
+        "sourceField": "establishes",
+        "unit": {
+          "kind": "directory",
+          "path": "standards/spec/"
         }
       },
       {
@@ -232,5 +249,5 @@
     "specStatus": "approved"
   },
   "schemaVersion": "1.1.0",
-  "shardHash": "4b4f4278c614f3206ba84d49863eaa9cca819eecf06ed72eab9cd5dbde4be389"
+  "shardHash": "7d66d502628c1cf99d3218f8a083106bb645794508f4fea1c79f03427bd7f93a"
 }

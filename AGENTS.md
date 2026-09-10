@@ -255,15 +255,17 @@ ratified by the maintainer on 2026-09-09 and are `approved`; a spec authored by
 Spec 001 governs this harness, and claims every file it is judged by: `Makefile`,
 `AGENTS.md`, `CLAUDE.md`, `.mcp.json`, `spec-spine.toml`, `.gitattributes`,
 `.claude/settings.json`, `.claude/skills/`, `.claude/agents/`, `.claude/rules/`,
-`.githooks/`, `.github/workflows/govern.yml` and `.github/workflows/ci.yml`.
+`.githooks/`, `standards/spec/`, `.github/workflows/govern.yml` and
+`.github/workflows/ci.yml`.
 Editing any of them means editing spec 001 in the same change, or `couple`
 refuses it. `.github/workflows/release.yml` belongs to spec 000, which owns
 release and publication.
 
-That list is not shorter than `[index] extra_hashed_inputs` by accident. A file
-that stales the ledger but no spec claims is one the coupling gate cannot
-refuse, which is how an edit to `.claude/rules/` once passed the gate
-untouched.
+That list is not shorter than `[index] extra_hashed_inputs` by accident: every
+path in that table is owned by exactly one spec, which is what makes the
+coupling gate total rather than partial. A file that stales the ledger but no
+spec claims is one the gate cannot refuse, which is how an edit to
+`.claude/rules/` once passed untouched.
 
 `.githooks/` carries the opt-in merge driver for the committed shard trees. It
 does nothing until `./.githooks/enable-merge-driver.sh` registers it in your

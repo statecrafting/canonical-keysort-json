@@ -30,6 +30,7 @@ establishes:
   - { kind: directory, path: ".claude/agents/" }
   - { kind: directory, path: ".claude/rules/" }
   - { kind: directory, path: ".githooks/" }
+  - { kind: directory, path: "standards/spec/" }
   - { kind: file, path: ".github/workflows/govern.yml" }
   - { kind: file, path: ".github/workflows/ci.yml" }
 ---
@@ -88,6 +89,13 @@ shard globs by `.gitattributes`. `spec-spine.toml` configures the compiler this
 chain runs, including the `[meta]` binary floor section 2 depends on, and
 `.github/workflows/ci.yml` runs the stack half of the gate that `govern.yml`
 deliberately does not duplicate.
+
+`standards/spec/` is claimed too: the constitution and the contract are the
+normative baseline every spec in this corpus defers to, and the templates are
+what `/spec` copies from. They arrive from `spec-spine init` rather than being
+authored here, which is the argument for leaving them alone, and it loses to
+the simpler one: a document the whole corpus defers to should not be editable
+without the gate noticing.
 
 Every one of those paths is claimed, not merely referenced. The list in
 `[index] extra_hashed_inputs` already says an edit to any of them should stale
@@ -155,6 +163,7 @@ spec-spine registry show 001-governed-harness --json | jq -e '[.establishes[].pa
 spec-spine registry show 001-governed-harness --json | jq -e '[.establishes[].path] | index(".claude/rules/")'
 spec-spine registry show 001-governed-harness --json | jq -e '[.establishes[].path] | index(".github/workflows/ci.yml")'
 spec-spine registry show 000-canonical-keysort-json-bootstrap --json | jq -e '[.establishes[].path] | index(".github/workflows/release.yml")'
+spec-spine registry show 001-governed-harness --json | jq -e '[.establishes[].path] | index("standards/spec/")'
 ```
 
 `make gate` covers freshness of both committed trees, the conformance lint,
@@ -170,6 +179,20 @@ are never parsed, only the tool's typed reply. Without them, a future edit could
 drop a unit from `establishes` and every other check here would still pass.
 
 ## 6. Resolved decisions
+
+**2026-09-09: `standards/spec/` joins the claim.** The sweep that closed the
+ownership gaps left one file class hashed but unowned, and an edit to
+`standards/spec/contract.md` still passed `couple` with exit 0. These files come
+from `spec-spine init` rather than being authored here, and a future refresh of
+the constitution or the contract now needs a spec 001 edit in the same change.
+That cost is accepted: the constitution and the contract are the baseline every
+spec in this corpus defers to, and `/spec` reads the template on every new spec,
+so a silent edit to any of them changes what the corpus means. A directory unit
+covers the templates too, which is deliberate rather than incidental.
+
+With this, every path in `[index] extra_hashed_inputs` is owned by exactly one
+spec, which is the property that makes the coupling gate total rather than
+partial.
 
 **2026-09-09: the harness claims every file it is judged by.** An audit on the
 merge of the 0.18.0 upgrade found that `couple` passed a commit editing
