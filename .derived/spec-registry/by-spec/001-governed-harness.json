@@ -90,14 +90,15 @@
     "kind": "tooling",
     "risk": "medium",
     "sectionDigests": {
-      "001-the-governed-harness": "5456897c1347bf01d9d499a0d3c6fa046b747351160fe2a54edc2858ae004365",
+      "001-the-governed-harness": "e7fca718b27936674085371ada7b53fb9fe1aa0a67b8f2fd35cbd0d882766d4f",
       "1-purpose": "4aad7f433669e8a19061f51d3bb0ffc6500a7a3e25a25642702f8753d6464623",
       "2-territory": "c004ee704b769722d7797fc9d25ca62b1617f049e032b693891b6d6226ae3312",
       "3-behavior": "2ecbe7c740a5a60df30469d66d4b894cda568d80a89f8e8b280a58c3b96d4de0",
       "4-out-of-scope": "7e72b55905c030d8022317051a3a8f1eacc21acf37c3b44771069b2e5ddd02d5",
       "5-verification": "0360e2cfd4219e41e32032e9e190251ae52ad1ca18ce2df3d151396ae5438e7c",
       "6-resolved-decisions": "354a505e89848c0ee4c7202e330c07de285e8149595213ccdf926639f3a291fe",
-      "managed-governance-enrollment-2026-10-02": "3af4050e51768a88c7f308ba482ae4c010ef8d5bfd685a76abeca6d16c762d7a"
+      "managed-governance-enrollment-2026-10-02": "80de4704e3a13ae85148205d8d32395e7fd314a9da65ab5cc81ef72110dde2d6",
+      "managed-governance-refresh-2026-10-02": "0869c5a1633bb81795005f0b64641ab3c0dcf36396e4c64f85c6e81d7e96bea9"
     },
     "sectionHeadings": [
       "001: The governed harness",
@@ -107,13 +108,14 @@
       "4. Out of scope",
       "5. Verification",
       "6. Resolved decisions",
-      "Managed governance enrollment (2026-10-02)"
+      "Managed governance enrollment (2026-10-02)",
+      "Managed governance refresh (2026-10-02)"
     ],
     "specPath": "specs/001-governed-harness/spec.md",
     "status": "approved",
     "summary": "This repository's own governance surface: the spec-spine gate chain, the committed .derived shard trees it compares against, the merge driver that keeps those shards mergeable, and the Claude Code session kit that constrains what an agent may do here. Spec 000 governs what the crate emits; this spec governs what the repository does to keep 000 honest. It exists because 000 section 4 became a normative cross-language contract while nothing mechanically checked that the corpus stating it stayed coherent with the code implementing it.\n",
     "title": "The governed harness (spec-spine self-governance and the session kit)"
   },
-  "shardHash": "575384ac2971e94a8dc56811b3002c77892b86137510ee591ef6c7c356fc5e53",
+  "shardHash": "3dae9c056abeb0942b6916c34fd2dfc8d370309a5c823e0fb8e96e4dc6f3e9dc",
   "specVersion": "1.9.0"
 }
