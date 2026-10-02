@@ -258,3 +258,12 @@ path ownership, and requires owner review for authority changes.
 
 The constitution template uses section authority claims for amendments, matching
 the managed constitution. The `amends` relationship continues to target spec ids.
+
+## Managed governance refresh (2026-10-02)
+
+The owner approved Statecraft profile revision 14 and fleet convergence after
+the revision-13 enrollment. This amendment adopts revision 14 with the
+existing exact spec-spine =0.28.0 pin and preserves the actual Rust code
+checks, all current governance parameters, and protected owner review.
+The revision-13 enrollment above remains the historical adoption record.
+The managed installer remains at .bin/spec-spine.
