@@ -29,6 +29,10 @@
         "source": "spec-edge"
       },
       {
+        "path": ".github/CODEOWNERS",
+        "source": "spec-edge"
+      },
+      {
         "path": ".github/workflows/ci.yml",
         "source": "spec-edge"
       },
@@ -37,7 +41,19 @@
         "source": "spec-edge"
       },
       {
+        "path": ".github/workflows/statecraft-ai-review.yml",
+        "source": "spec-edge"
+      },
+      {
+        "path": ".github/workflows/statecraft-ci.yml",
+        "source": "spec-edge"
+      },
+      {
         "path": ".mcp.json",
+        "source": "spec-edge"
+      },
+      {
+        "path": ".statecraft/",
         "source": "spec-edge"
       },
       {
@@ -50,6 +66,10 @@
       },
       {
         "path": "Makefile",
+        "source": "spec-edge"
+      },
+      {
+        "path": "scripts/statecraft/",
         "source": "spec-edge"
       },
       {
@@ -117,6 +137,32 @@
       {
         "locations": [
           {
+            "file": ".statecraft/"
+          }
+        ],
+        "ownership": true,
+        "sourceField": "establishes",
+        "unit": {
+          "kind": "directory",
+          "path": ".statecraft/"
+        }
+      },
+      {
+        "locations": [
+          {
+            "file": "scripts/statecraft/"
+          }
+        ],
+        "ownership": true,
+        "sourceField": "establishes",
+        "unit": {
+          "kind": "directory",
+          "path": "scripts/statecraft/"
+        }
+      },
+      {
+        "locations": [
+          {
             "file": "standards/spec/"
           }
         ],
@@ -156,6 +202,19 @@
       {
         "locations": [
           {
+            "file": ".github/CODEOWNERS"
+          }
+        ],
+        "ownership": true,
+        "sourceField": "establishes",
+        "unit": {
+          "kind": "file",
+          "path": ".github/CODEOWNERS"
+        }
+      },
+      {
+        "locations": [
+          {
             "file": ".github/workflows/ci.yml"
           }
         ],
@@ -177,6 +236,32 @@
         "unit": {
           "kind": "file",
           "path": ".github/workflows/govern.yml"
+        }
+      },
+      {
+        "locations": [
+          {
+            "file": ".github/workflows/statecraft-ai-review.yml"
+          }
+        ],
+        "ownership": true,
+        "sourceField": "establishes",
+        "unit": {
+          "kind": "file",
+          "path": ".github/workflows/statecraft-ai-review.yml"
+        }
+      },
+      {
+        "locations": [
+          {
+            "file": ".github/workflows/statecraft-ci.yml"
+          }
+        ],
+        "ownership": true,
+        "sourceField": "establishes",
+        "unit": {
+          "kind": "file",
+          "path": ".github/workflows/statecraft-ci.yml"
         }
       },
       {
@@ -248,6 +333,6 @@
     "specId": "001-governed-harness",
     "specStatus": "approved"
   },
-  "schemaVersion": "1.1.0",
-  "shardHash": "7d66d502628c1cf99d3218f8a083106bb645794508f4fea1c79f03427bd7f93a"
+  "schemaVersion": "1.2.0",
+  "shardHash": "575384ac2971e94a8dc56811b3002c77892b86137510ee591ef6c7c356fc5e53"
 }

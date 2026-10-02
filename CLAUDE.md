@@ -94,11 +94,8 @@ governs the harness that keeps 000 honest. The compiled shard trees under
 `.gitattributes` merge driver and the `.derived/**/build-meta.json` gitignore
 entry are active, not forward-looking.
 
-Governance runs on the published `spec-spine` binary installed on `PATH`.
-There is no `package.json` here and no `npx` invocation. `spec-spine.toml`
-sets `[meta] required_version = ">=0.18.0"`, so a binary too old for the verbs
-the harness calls is refused at the call with a config error rather than
-answering with a misleading exit code. Install or upgrade it with `/setup`.
+Governance uses `.bin/spec-spine`, installed by `make tools`. The exact
+`[meta] required_version = "=0.28.0"` pin refuses mismatched binaries.
 
 Read compiled artifacts only through `spec-spine` subcommands, never with
 `jq`, `grep`, `python`, `awk` or `sed` over the shard JSON

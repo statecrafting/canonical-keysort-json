@@ -10,6 +10,26 @@
     "establishes": [
       {
         "kind": "file",
+        "path": ".github/CODEOWNERS"
+      },
+      {
+        "kind": "file",
+        "path": ".github/workflows/statecraft-ai-review.yml"
+      },
+      {
+        "kind": "file",
+        "path": ".github/workflows/statecraft-ci.yml"
+      },
+      {
+        "kind": "directory",
+        "path": ".statecraft/"
+      },
+      {
+        "kind": "directory",
+        "path": "scripts/statecraft/"
+      },
+      {
+        "kind": "file",
         "path": "Makefile"
       },
       {
@@ -69,6 +89,16 @@
     "implementation": "complete",
     "kind": "tooling",
     "risk": "medium",
+    "sectionDigests": {
+      "001-the-governed-harness": "5456897c1347bf01d9d499a0d3c6fa046b747351160fe2a54edc2858ae004365",
+      "1-purpose": "4aad7f433669e8a19061f51d3bb0ffc6500a7a3e25a25642702f8753d6464623",
+      "2-territory": "c004ee704b769722d7797fc9d25ca62b1617f049e032b693891b6d6226ae3312",
+      "3-behavior": "2ecbe7c740a5a60df30469d66d4b894cda568d80a89f8e8b280a58c3b96d4de0",
+      "4-out-of-scope": "7e72b55905c030d8022317051a3a8f1eacc21acf37c3b44771069b2e5ddd02d5",
+      "5-verification": "0360e2cfd4219e41e32032e9e190251ae52ad1ca18ce2df3d151396ae5438e7c",
+      "6-resolved-decisions": "354a505e89848c0ee4c7202e330c07de285e8149595213ccdf926639f3a291fe",
+      "managed-governance-enrollment-2026-10-02": "3af4050e51768a88c7f308ba482ae4c010ef8d5bfd685a76abeca6d16c762d7a"
+    },
     "sectionHeadings": [
       "001: The governed harness",
       "1. Purpose",
@@ -76,13 +106,14 @@
       "3. Behavior",
       "4. Out of scope",
       "5. Verification",
-      "6. Resolved decisions"
+      "6. Resolved decisions",
+      "Managed governance enrollment (2026-10-02)"
     ],
     "specPath": "specs/001-governed-harness/spec.md",
     "status": "approved",
     "summary": "This repository's own governance surface: the spec-spine gate chain, the committed .derived shard trees it compares against, the merge driver that keeps those shards mergeable, and the Claude Code session kit that constrains what an agent may do here. Spec 000 governs what the crate emits; this spec governs what the repository does to keep 000 honest. It exists because 000 section 4 became a normative cross-language contract while nothing mechanically checked that the corpus stating it stayed coherent with the code implementing it.\n",
     "title": "The governed harness (spec-spine self-governance and the session kit)"
   },
-  "shardHash": "6019d758fa84bf51415b64c61d5bc715f4af14e0fd358c394bd4338cb0782f53",
-  "specVersion": "1.2.0"
+  "shardHash": "575384ac2971e94a8dc56811b3002c77892b86137510ee591ef6c7c356fc5e53",
+  "specVersion": "1.9.0"
 }

@@ -43,7 +43,8 @@ jobs:
 
       - name: Install spec-spine
         run: |
-          curl -fsSL https://raw.githubusercontent.com/statecrafting/spec-spine/main/install.sh | sh
+          sh scripts/statecraft/install-spec-spine.sh
+          echo "$PWD/.bin" >> "$GITHUB_PATH"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       # Read-only. `compile --check` and `index check` compare the committed
@@ -63,7 +64,5 @@ jobs:
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           printf '%s' "$PR_BODY" > "$RUNNER_TEMP/pr-body.txt"
-          spec-spine check --fail-on-unresolved --fail-on-warn
-          spec-spine lint --fail-on-warn
-          spec-spine index coverage --fail-on-untraced
-          spec-spine couple --base "origin/${{ github.base_ref }}" --head HEAD --pr-body "$RUNNER_TEMP/pr-body.txt"
+          sh scripts/statecraft/gate.sh governance
+          .bin/spec-spine couple --base "origin/${{ github.base_ref }}" --head HEAD --pr-body "$RUNNER_TEMP/pr-body.txt"
