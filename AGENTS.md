@@ -1,3 +1,5 @@
+@.statecraft/AGENTS.md
+
 # AGENTS.md: canonical-keysort-json
 
 This file is the cross-agent session-init protocol authority, read by Claude
@@ -5,10 +7,8 @@ Code, Codex CLI, Cursor, and GitHub Copilot via the AAIF/Linux Foundation
 AGENTS.md standard. It is the single source for the init protocol: tooling that
 runs `/prime` reads the `## New Sessions` section to derive its plan.
 
-Governance is provided by `spec-spine`, installed on your `PATH`. There is no
-`package.json` here and no `npx` invocation. `spec-spine.toml` sets
-`[meta] required_version = ">=0.18.0"`, so the CLI refuses a binary too old for
-the verbs below rather than answering them with a misleading exit code.
+Governance uses `.bin/spec-spine`, installed by `make tools`. The exact
+`[meta] required_version = "=0.28.0"` pin rejects every mismatched binary.
 Bootstrap spec: `specs/000-canonical-keysort-json-bootstrap/spec.md`.
 
 ## New Sessions
@@ -34,7 +34,7 @@ picked up on the next init.
    - `standards/spec/contract.md`: the short normative spec-spine contract
    - `standards/spec/constitution.md`: durable constitutional baseline
    - `spec-spine --version`: the binary's version. The `[meta]` pin makes the
-     CLI check this itself on every run, so a version too old fails loudly at
+     CLI check this itself on every run, so a mismatched version fails loudly at
      the call rather than silently mis-answering it.
    - `spec-spine check`: the freshness read for **both** committed trees, the
      spec registry and the codebase index (spec 075; non-fatal, see
@@ -43,7 +43,7 @@ picked up on the next init.
    - `spec-spine registry plan`: the ready set (spec 038): which specs can be
      worked on now and what blocks the rest
    - `spec-spine index coverage`: which source files no spec specifically
-     claims (spec 032; non-fatal, exit 2 if the index is stale)
+     claims (spec 032; non-fatal, exit 1 for stale inputs)
    - `spec-spine registry list --ids-only`: spec inventory (for latest-spec
      detection)
    - `ls src/`: the crate surface (one file, `src/lib.rs`)
@@ -61,32 +61,15 @@ picked up on the next init.
 directly (no `python`, `jq`, `awk`, `sed` against compiled artifacts). All
 structural and lifecycle data comes from `spec-spine` subcommands.
 
-**Freshness:** this repository commits its derived artifacts, so
-`spec-spine check` (spec 075) asks about both committed trees in one call. It
-compiles in memory and compares against the committed shards **without
-writing**, reports each tree separately, and returns the more severe of the two
-verdicts in this order: **`3` then `1` then `2` then `0`**. It is non-fatal to
-`/prime`: report it in the summary and continue.
-
-- **`0` (both fresh):** the committed shards are exactly what the corpus
-  compiles to, so the lifecycle counts reflect the current `specs/*/spec.md`
-  frontmatter. Report nothing.
-- **`2` (stale):** say which tree the output named, name the drifted shards
-  from stderr, report "run `spec-spine compile` and commit" or "run
-  `spec-spine index`" accordingly, and continue. The lifecycle counts come from
-  the committed ledger and are therefore the stale ones; say so rather than
-  presenting them as current.
-- **`1` (validation failed, or unresolved units refused):** with
-  `--fail-on-unresolved` this code also covers a refused unresolved-unit
-  diagnostic, so read the report lines to tell the two apart. If the corpus
-  fails validation, surface the violations and report the counts as unverified.
-  This outranks `2`: staleness is not meaningful against a corpus that does not
-  validate.
-- **`3` (I/O, parse, schema, or config):** a read that could not be performed
-  has not answered. Treat freshness as unknown for both trees, report stderr
-  verbatim, and continue. Never report "fresh" for a code you did not
-  recognize. Against the `[meta]` pin this is also the code a too-old binary
-  produces, and the message says so.
+**Freshness:** `spec-spine check` reads both committed trees without writing.
+Report its verdict before lifecycle counts: `0` means fresh, `1` a finding
+(including staleness or validation diagnostics), `2` refused (including a pin
+mismatch), `3` usage, and `4` failed. For a confirmed stale-tree finding,
+name the tree and drifted shards and suggest `spec-spine compile` or
+`spec-spine index` as appropriate. For other findings report the diagnostic.
+For refusal, usage, or failure report freshness as unknown and surface stderr.
+Never regenerate merely because the read returned nonzero. Stale counts
+come from the committed ledger; label them as stale or unverified.
 
 The counts are formatted in step 2, after every parallel read has returned, so
 the freshness verdict is always in hand before the lifecycle numbers are

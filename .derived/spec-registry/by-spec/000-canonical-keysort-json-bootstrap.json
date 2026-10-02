@@ -31,6 +31,16 @@
       }
     ],
     "risk": "low",
+    "sectionDigests": {
+      "000-canonical-keysort-json-bootstrap": "ec96baf996354ab59cd84f19fffa7249e6712f83eb7b6dac2e6b04526dd2acbd",
+      "1-purpose": "35d6daac86241167bf089aa0ef4aee07cf23fd7ae448d1f3b45b1a4b027f51ca",
+      "2-scope": "f3f1e840439b16a1e04c8d62eaf0cb9c4ff01223eed2fa9b722c437de7e6b8a6",
+      "3-provenance": "7ec5846e4a54c98fe811774da47a7b3ca75eff75164e5a34e2fd6b5d1697e125",
+      "4-the-canonical-form-normative": "3e91db13874d56d4d07fe8a05b5bd96d5b12d10e215e5d7078e5a906cb20b47d",
+      "5-established-units": "554e08d9b5d9c92e38528490a5cbde606c1af9a0490d592c5f8ea1c8aa16de7b",
+      "6-verification": "8776c9c4d8e3b4b7076ce05e58958a55b1458a390d3dd13158405776e807d928",
+      "non-guarantees": "5ce85a8b9b1cf4721cd1c4b2b3411f88f3fe4c8715672c82083aa324f70fb6d6"
+    },
     "sectionHeadings": [
       "000: canonical-keysort-json bootstrap",
       "1. Purpose",
@@ -47,5 +57,5 @@
     "title": "canonical-keysort-json bootstrap (deterministic JSON key-ordering library)"
   },
   "shardHash": "77a7ada646fc7d36463746ee9449ff0973a991afe3926a1581e3a796862b6216",
-  "specVersion": "1.2.0"
+  "specVersion": "1.9.0"
 }

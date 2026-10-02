@@ -75,6 +75,6 @@
     "specId": "000-canonical-keysort-json-bootstrap",
     "specStatus": "approved"
   },
-  "schemaVersion": "1.1.0",
-  "shardHash": "13b80a0fe6fae6f3a9f709efd5999526a44d5d8738673af5f20461d5aa4d14f7"
+  "schemaVersion": "1.2.0",
+  "shardHash": "77a7ada646fc7d36463746ee9449ff0973a991afe3926a1581e3a796862b6216"
 }

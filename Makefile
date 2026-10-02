@@ -19,7 +19,7 @@
 # three of the four governed repositories, and probing for the tool answers the
 # wrong question. Every guarded target is a clean no-op on a code-free corpus.
 
-SPEC_SPINE ?= spec-spine
+SPEC_SPINE ?= .bin/spec-spine
 # Spec 072 3.3: the coupling base follows the branch this repository
 # actually has. The same three steps the push gate resolves with, in the
 # same order: $SPEC_SPINE_DEFAULT_BRANCH (make imports the environment, so
@@ -28,16 +28,17 @@ SPEC_SPINE ?= spec-spine
 SPEC_SPINE_DEFAULT_BRANCH ?= $(shell git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's|^origin/||')
 BASE       ?= origin/$(or $(SPEC_SPINE_DEFAULT_BRANCH),main)
 
-.PHONY: gate refresh verify test build fmt clippy help
+.PHONY: gate code refresh verify test build fmt clippy help
 
 ## The governed loop, read-only throughout. A gate that writes repairs what it
 ## is meant to judge (spec 046), so this uses `compile --check` and never
 ## `compile`.
 gate:
-	$(SPEC_SPINE) check --fail-on-unresolved --fail-on-warn
-	$(SPEC_SPINE) lint --fail-on-warn
-	$(SPEC_SPINE) index coverage --fail-on-untraced
+	sh scripts/statecraft/gate.sh governance
 	$(SPEC_SPINE) couple --base $(BASE) --head HEAD
+
+code:
+	sh scripts/statecraft/gate.sh code
 
 ## The writing half, for a live session that has edited a spec and can commit
 ## the regenerated shards with the change that made them stale.
@@ -52,20 +53,24 @@ verify:
 	$(SPEC_SPINE) verify $(SPEC)
 
 test:
-	@test -f Cargo.toml && cargo test --workspace --locked || echo "no Cargo.toml, skipping"
-	@test -f package.json && npm test --if-present || echo "no package.json, skipping"
+	@if test -f Cargo.toml; then cargo test --workspace --locked; else echo "no Cargo.toml, skipping"; fi
+	@if test -f package.json; then npm test --if-present; else echo "no package.json, skipping"; fi
 
 build:
-	@test -f Cargo.toml && cargo build --workspace --locked || echo "no Cargo.toml, skipping"
+	@if test -f Cargo.toml; then cargo build --workspace --locked; else echo "no Cargo.toml, skipping"; fi
 
 fmt:
-	@test -f Cargo.toml && cargo fmt --all --check || echo "no Cargo.toml, skipping"
+	@if test -f Cargo.toml; then cargo fmt --all --check; else echo "no Cargo.toml, skipping"; fi
 
 clippy:
-	@test -f Cargo.toml && cargo clippy --workspace --all-targets --locked -- -D warnings || echo "no Cargo.toml, skipping"
+	@if test -f Cargo.toml; then cargo clippy --workspace --all-targets --locked -- -D warnings; else echo "no Cargo.toml, skipping"; fi
 
 help:
 	@echo "gate     the governed loop, read-only"
 	@echo "refresh  recompute the committed shard trees"
 	@echo "verify   SPEC=<id>, one spec's declared acceptance"
 	@echo "test build fmt clippy   guarded on a manifest probe"
+
+.PHONY: tools
+tools:
+	sh scripts/statecraft/install-spec-spine.sh

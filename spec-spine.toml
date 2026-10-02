@@ -23,7 +23,7 @@
 # `deny_unknown_fields`, so a binary predating spec 062 cannot deserialize this
 # key at all and exits 3 with a config error rather than a misleading 2.
 [meta]
-required_version = ">=0.18.0"
+required_version = "=0.28.0"
 
 [manifest]
 # The crate carries `[package.metadata.canonical-keysort-json].spec = "NNN-slug"`.
@@ -54,7 +54,7 @@ standalone_npm_packages    = []
 # contributed to any content hash. A bare `.claude/**/*` would go wrong in the
 # other direction, folding in `.DS_Store` and `settings.local.json` and making
 # the shard hashes machine-dependent.
-extra_hashed_inputs = [
+extra_hashed_inputs = ["scripts/statecraft/**/*", ".statecraft/AGENTS.md", ".statecraft/environment.json", ".statecraft/setup/github-actions-rust.json", ".github/CODEOWNERS", 
   "standards/**/*.md",
   ".github/workflows/*.yml",
   # Governance and harness files: an edit to what an agent may do should stale

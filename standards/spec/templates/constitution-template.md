@@ -29,6 +29,8 @@ anchor it rests on, if any.>
 
 ## Amendment
 
-This constitution may be amended by an ordinary spec that `amends` it and is
-approved, provided the amendment does not contradict a `specs/000` `unamendable`
-anchor.
+This constitution may be changed by an approved ordinary spec that claims
+the affected text as a section authority unit with `establishes`, `refines`
+(with a named `aspect`), or `co_authority`, provided the change contradicts no
+bootstrap `unamendable` anchor. `amends` targets spec ids and does not amend
+this constitution file.

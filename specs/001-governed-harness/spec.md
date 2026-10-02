@@ -19,6 +19,11 @@ summary: >
 depends_on:
   - "000-canonical-keysort-json-bootstrap"
 establishes:
+  - { kind: file, path: ".github/CODEOWNERS" }
+  - { kind: file, path: ".github/workflows/statecraft-ai-review.yml" }
+  - { kind: file, path: ".github/workflows/statecraft-ci.yml" }
+  - { kind: directory, path: ".statecraft/" }
+  - { kind: directory, path: "scripts/statecraft/" }
   - { kind: file, path: "Makefile" }
   - { kind: file, path: "AGENTS.md" }
   - { kind: file, path: "CLAUDE.md" }
@@ -63,23 +68,13 @@ spec-spine index coverage --fail-on-untraced
 spec-spine couple --base <base> --head HEAD
 ```
 
-`check` (spec-spine 0.18.0, spec 075) is the composed freshness read: it asks
-the question `compile --check` and `index check` asked separately, over both
-committed trees, and returns the more severe of the two verdicts in the order
-`3`, `1`, `2`, `0`. It is additive over the two primitives, which keep their
-flags and their contracts, so the chain checks exactly what it checked before
-and gains one thing: `--fail-on-warn` reaches the compile half, which is only
-callable from the chain through this verb, and a warning-tier violation now
-refuses rather than merely counting (spec 077). `spec-spine.toml` sets
-`[meta] required_version = ">=0.18.0"`, so a binary that predates the verb is
-refused at the call with a config error rather than answering with an exit code
-this chain would misread.
-
-`Makefile`'s `gate` target is the single definition of that chain, and
-`.github/workflows/govern.yml` runs the same target rather than restating it, so
-the local loop and the CI loop cannot drift. `make refresh` is the writing half,
-for a session that has edited a spec and can commit the regenerated shards with
-the change that made them stale.
+`check` reads both committed trees without writing. Under the adopted
+0.28.0 contract, exits are 0 ok, 1 finding (including stale), 2 refused,
+3 usage, and 4 failed. The exact [meta] required_version pin is =0.28.0.
+The rendered `scripts/statecraft/gate.sh governance` defines the read-only
+chain used by `make gate` and managed CI; the local gate retains its explicit
+coupling check. The legacy govern.yml also invokes make gate. `make refresh`
+is the writing half, committing regenerated shards with the authored change.
 
 `.claude/` carries the session harness: the skills that drive the governed loop,
 the agents, and the rules that constrain what an agent may do. `AGENTS.md` is
@@ -155,10 +150,10 @@ test "$(ls .claude/skills | wc -l | tr -d ' ')" = 10
 test -f .claude/settings.json
 test -f .mcp.json
 test -f .githooks/merge-derived-index.sh
-grep -q 'check --fail-on-unresolved --fail-on-warn' Makefile
-grep -q 'index coverage --fail-on-untraced' Makefile
+grep -q 'gate.sh governance' Makefile
+grep -q 'index coverage --fail-on-untraced' scripts/statecraft/gate.sh
 grep -q 'couple --base' Makefile
-grep -q 'spec-spine check --fail-on-unresolved --fail-on-warn' .github/workflows/govern.yml
+grep -q 'gate.sh governance' .github/workflows/govern.yml
 spec-spine registry show 001-governed-harness --json | jq -e '[.establishes[].path] | index("spec-spine.toml")'
 spec-spine registry show 001-governed-harness --json | jq -e '[.establishes[].path] | index(".claude/rules/")'
 spec-spine registry show 001-governed-harness --json | jq -e '[.establishes[].path] | index(".github/workflows/ci.yml")'
@@ -252,3 +247,14 @@ alone:
   keeping both would run every cargo command twice per pull request. The
   workflow comment carries the reason and the `hashFiles` finding the probe job
   exists to hold, so neither is rediscovered.
+
+## Managed governance enrollment (2026-10-02)
+
+The owner requested enrollment on spec-spine =0.28.0 and the Statecraft
+github-actions-rust profile revision 13. The adopted pin remains the single
+version authority. The managed profile installs .bin/spec-spine, preserves
+signed commits, checks every commit, enforces source coverage and ratified
+path ownership, and requires owner review for authority changes.
+
+The constitution template uses section authority claims for amendments, matching
+the managed constitution. The `amends` relationship continues to target spec ids.
