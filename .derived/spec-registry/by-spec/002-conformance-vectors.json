@@ -4,24 +4,6 @@
     "dependsOn": [
       "000-canonical-keysort-json-bootstrap"
     ],
-    "extends": [
-      {
-        "nature": "additive",
-        "spec": "000-canonical-keysort-json-bootstrap",
-        "unit": {
-          "kind": "file",
-          "path": "src/lib.rs"
-        }
-      },
-      {
-        "nature": "additive",
-        "spec": "000-canonical-keysort-json-bootstrap",
-        "unit": {
-          "kind": "file",
-          "path": "Cargo.toml"
-        }
-      }
-    ],
     "id": "002-conformance-vectors",
     "implementation": "pending",
     "kind": "tooling",
@@ -36,9 +18,9 @@
     ],
     "risk": "medium",
     "sectionDigests": {
-      "002-language-neutral-conformance-vectors": "be27903c291a338364964942d8582e38deee468ba6e5d6769feab36e222182e2",
+      "002-language-neutral-conformance-vectors": "68e3185b729ea13ba1363862751a8081087cac6aae6502c07a3f2079a244ac85",
       "1-purpose": "d31f53160d2da5c01ccd00281a194eeab6513748e5e1ea265dad0d3e89aa2b5a",
-      "2-territory": "0e43ba46e9fca419e4d59c5b54b76de6ccc1c7a060b766820f3521ce399bb35e",
+      "2-territory": "3978afca0570e37013b0274cdc09647bb68f607e1de0d5e7f5228e78e944a055",
       "3-1-file-format": "a0c7fc123080b294e80101944df3c252fdde49d54755fbde702ba8ae21b2f126",
       "3-2-required-coverage": "23257ed0a7639d533ab79864b2c6ce9c276645cbd373e3a60100e2d1d7c71798",
       "3-3-the-rust-suite": "9de26ed9ede5f1f009293634f595b9c1de9d74818cfe80f9d1161e8131018d85",
@@ -66,6 +48,6 @@
     "summary": "A committed, versioned, language-neutral vector file that states spec 000 section 4 as data: inputs as JSON text, expected canonical output as both a string and its UTF-8 bytes in hex, and inputs every implementation must reject. The Rust crate runs every vector as a test, so the file cannot drift from the reference implementation, and a port in another language (claude-observatory's journal.ts is the first) checks itself against the same file instead of against prose. It exists because the one divergence this family has had was invisible to every test either side owned, and would have failed the first vector here that exercised it.\n",
     "title": "Language-neutral conformance vectors for the canonical form"
   },
-  "shardHash": "bcfd081dfa8ca2751b6ebc6694e6150c2f8598fa396a2f8eb104a085101e6341",
+  "shardHash": "2db9adea67eaee436b4363864db8e38d3ce2abd88b317dac3b1345d14c18d9e1",
   "specVersion": "1.9.0"
 }

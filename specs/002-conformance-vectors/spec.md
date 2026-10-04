@@ -18,9 +18,6 @@ summary: >
   have failed the first vector here that exercised it.
 depends_on:
   - "000-canonical-keysort-json-bootstrap"
-extends:
-  - { spec: "000-canonical-keysort-json-bootstrap", unit: "src/lib.rs", nature: additive }
-  - { spec: "000-canonical-keysort-json-bootstrap", unit: "Cargo.toml", nature: additive }
 references:
   - { unit: { kind: file, path: "README.md" }, role: context }
 ---
@@ -43,10 +40,13 @@ implementations is a fact both can check rather than an assumption.
 
 ## 2. Territory
 
-While this spec is a draft the territory is stated here in prose only: a
+While this spec is a draft the territory is stated here in prose only. A
 `vectors/` claim in `establishes` before the directory exists is an unresolved
-unit, and the gate refuses it. The build adds
-`{ kind: directory, path: "vectors/" }` to `establishes` in the same change
+unit, and the gate refuses it. An `extends` edge on a spec 000 unit makes a
+draft count as an owner of that file, and the governance gate then refuses any
+change to the file until this spec is ratified. The build adds
+`{ kind: directory, path: "vectors/" }` to `establishes`, and the two
+`extends` edges below (`nature: additive`, on spec 000), in the same change
 that creates the directory.
 
 - `vectors/canonical-form.json`: the vector file (established).
