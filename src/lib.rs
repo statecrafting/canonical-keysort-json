@@ -4,8 +4,12 @@
 // Relicensed from the Open Agentic Platform (crates/canonical-json,
 // AGPL-3.0-or-later) to Apache-2.0 by the sole copyright holder. See NOTICE.
 
-//! Canonical JSON: recursive lex-sort of object keys at the serialization
-//! boundary.
+//! Deterministic JSON key-sort: recursive lex-sort of object keys at the
+//! serialization boundary.
+//!
+//! This sorts object keys and nothing else. It is not Canonical JSON in the
+//! gibson042 sense, nor RFC 8785 (JCS): it neither normalizes numbers nor
+//! escapes non-ASCII, so its bytes differ from both for some inputs.
 //!
 //! # Why this crate exists
 //!
@@ -206,6 +210,25 @@ mod tests {
         assert_eq!(to_canonical_string(&input), r#"{"10":1,"2":2,"9":3,"a":4}"#);
     }
 
+    // --- the test build must be the adversarial one ---
+
+    #[test]
+    fn test_build_runs_with_preserve_order() {
+        // Every test above is vacuous without `preserve_order`: a BTreeMap
+        // already iterates in sorted order, so an identity
+        // `canonicalize_value` would pass them all. The dev-dependency in
+        // Cargo.toml turns the feature on; this fails if that ever stops.
+        let mut m = serde_json::Map::new();
+        m.insert("z".into(), json!(1));
+        m.insert("a".into(), json!(2));
+        let keys: Vec<&str> = m.keys().map(String::as_str).collect();
+        assert_eq!(
+            keys,
+            ["z", "a"],
+            "serde_json/preserve_order is off in the test build"
+        );
+    }
+
     #[test]
     fn to_canonical_string_matches_canonicalize_then_serialize() {
         let v = json!({ "b": 1, "a": 2 });
@@ -213,5 +236,105 @@ mod tests {
             to_canonical_string(&v),
             serde_json::to_string(&canonicalize_value(v.clone())).unwrap()
         );
+    }
+    // --- property: byte stability over generated values ---
+
+    mod properties {
+        use super::*;
+        use proptest::prelude::*;
+
+        /// Keys drawn to hit the orderings that matter: ASCII, integer-like,
+        /// the empty key, BMP vs astral (the UTF-16 trap), U+2028, and a
+        /// short arbitrary tail.
+        fn key() -> impl Strategy<Value = String> {
+            prop_oneof![
+                "[a-z]{0,3}",
+                "[0-9]{1,3}",
+                Just("\u{FFFD}".to_string()),
+                Just("\u{1F600}".to_string()),
+                Just("\u{E000}".to_string()),
+                Just("\u{2028}".to_string()),
+                Just("é".to_string()),
+                any::<String>().prop_map(|s| s.chars().take(4).collect()),
+            ]
+        }
+
+        fn value() -> impl Strategy<Value = Value> {
+            let leaf = prop_oneof![
+                Just(Value::Null),
+                any::<bool>().prop_map(Value::Bool),
+                any::<i64>().prop_map(Value::from),
+                key().prop_map(Value::String),
+            ];
+            leaf.prop_recursive(4, 48, 6, |inner| {
+                prop_oneof![
+                    prop::collection::vec(inner.clone(), 0..6).prop_map(Value::Array),
+                    prop::collection::vec((key(), inner), 0..6)
+                        .prop_map(|kvs| Value::Object(kvs.into_iter().collect())),
+                ]
+            })
+        }
+
+        /// Rebuild `v` with every object's insertion order shuffled by
+        /// `seed`. Under `preserve_order` this changes what a naive
+        /// serializer emits while leaving the logical value equal.
+        fn reorder(v: &Value, seed: &mut u64) -> Value {
+            match v {
+                Value::Object(map) => {
+                    let mut entries: Vec<(&String, &Value)> = map.iter().collect();
+                    for i in (1..entries.len()).rev() {
+                        *seed ^= *seed << 13;
+                        *seed ^= *seed >> 7;
+                        *seed ^= *seed << 17;
+                        entries.swap(i, (*seed % (i as u64 + 1)) as usize);
+                    }
+                    Value::Object(
+                        entries
+                            .into_iter()
+                            .map(|(k, v)| (k.clone(), reorder(v, seed)))
+                            .collect(),
+                    )
+                }
+                Value::Array(arr) => Value::Array(arr.iter().map(|e| reorder(e, seed)).collect()),
+                other => other.clone(),
+            }
+        }
+
+        /// Every object in `v` iterates in strictly ascending `String::cmp`
+        /// order: the canonical form of spec 000 section 4 rule 1.
+        fn keys_strictly_sorted(v: &Value) -> bool {
+            match v {
+                Value::Object(map) => {
+                    map.keys().zip(map.keys().skip(1)).all(|(a, b)| a < b)
+                        && map.values().all(keys_strictly_sorted)
+                }
+                Value::Array(arr) => arr.iter().all(keys_strictly_sorted),
+                _ => true,
+            }
+        }
+
+        proptest! {
+            #![proptest_config(ProptestConfig {
+                cases: 512,
+                failure_persistence: None,
+                ..ProptestConfig::default()
+            })]
+
+            #[test]
+            fn byte_stable_across_key_insertion_order(v in value(), seed in 1u64..) {
+                let mut s = seed;
+                let shuffled = reorder(&v, &mut s);
+                prop_assert_eq!(to_canonical_string(&v), to_canonical_string(&shuffled));
+            }
+
+            #[test]
+            fn output_is_sorted_lossless_and_idempotent(v in value()) {
+                let out = to_canonical_string(&v);
+                let reparsed: Value = serde_json::from_str(&out).unwrap();
+                prop_assert!(keys_strictly_sorted(&reparsed));
+                prop_assert_eq!(&reparsed, &v);
+                prop_assert_eq!(to_canonical_string(&reparsed), out);
+            }
+        }
     }
 }
