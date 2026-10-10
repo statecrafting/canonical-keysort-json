@@ -1,9 +1,10 @@
 # canonical-keysort-json
 
-Deterministic Canonical JSON: a recursive lexicographic sort of object keys at
+Deterministic JSON key-sort: a recursive lexicographic sort of object keys at
 the serialization boundary, so a value serializes byte-identically regardless
 of `serde_json`'s `preserve_order` feature state anywhere in the dependency
-graph.
+graph. It sorts keys and nothing else; it is not Canonical JSON in the
+gibson042 sense, nor RFC 8785 (see [Name](#name)).
 
 It exists because `preserve_order` unifies monotonically under Cargo's
 resolver 2: one crate enabling it silently flips key order for every dependent
