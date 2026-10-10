@@ -148,3 +148,32 @@ cargo test --locked
 
 Every command carries `--locked`, so a `Cargo.lock` that drifted from
 `Cargo.toml` fails acceptance rather than being silently resolved.
+
+## 7. Resolved decisions
+
+**2026-10-04: the test build runs with `serde_json/preserve_order` on.**
+Section 6 names the byte-stability test as the guard downstream ledgers rely
+on, and it guarded nothing. Without `preserve_order`, `serde_json::Map` is a
+`BTreeMap` whose iteration order is `String::cmp`, which is rule 1 of section 4
+by construction, so replacing `canonicalize_value` with the identity left all
+ten tests passing. The adversarial mode is the one this crate exists for, so the
+tests now run in it: `Cargo.toml` enables the feature on a `serde_json`
+dev-dependency, which resolver 2 keeps out of the build a consumer links, and
+`test_build_runs_with_preserve_order` fails if that ever silently stops. The
+`BTreeMap` mode needs no separate run, because there the sorted order is the
+map's own and `canonicalize_value` cannot change it.
+
+**2026-10-04: byte stability is asserted as a property, not only by example.**
+`proptest` (a dev-dependency, `std` only, no failure persistence file) generates
+nested values whose keys are drawn from the classes section 4 calls out:
+integer-like, BMP and astral, U+2028, the empty key. It asserts that shuffling
+every object's insertion order leaves `to_canonical_string` unchanged, and that
+the output has strictly ascending keys at every level, round-trips to an equal
+value, and is a fixed point. Both a non-recursive sort and a UTF-16 code unit
+sort fail it.
+
+**2026-10-04: 0.1.1 is a documentation and test release.** The crate metadata,
+README and module docs called this crate "Canonical JSON", which section 4's
+non-guarantees and the crate name both disclaim, and the published 0.1.0 docs
+predate the section 4 guidance on `canonicalize_value`. No emitted byte changes,
+so this is a patch release.

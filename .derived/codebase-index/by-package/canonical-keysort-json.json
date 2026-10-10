@@ -5,8 +5,8 @@
     "name": "canonical-keysort-json",
     "path": "",
     "specRef": "000-canonical-keysort-json-bootstrap",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "schemaVersion": "1.2.0",
-  "shardHash": "7119553810f7a6ff91c692b282d68b1b2239cb196a8a68737b5a67f7638610b8"
+  "shardHash": "4342a9f0de749425e19e5feec66ad44ee427c8ccce5583ebefe787fa466d8170"
 }

@@ -1,4 +1,4 @@
-# canonical-keysort-json: deterministic Canonical JSON key-ordering at the
+# canonical-keysort-json: deterministic JSON object-key ordering at the
 # serialization boundary. Single-crate library, the leaf dependency of
 # attest-ledger and action-gate.
 #
@@ -18,13 +18,13 @@
 
 [package]
 name = "canonical-keysort-json"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 rust-version = "1.85"
 license = "Apache-2.0"
 repository = "https://github.com/statecrafting/canonical-keysort-json"
 homepage = "https://github.com/statecrafting/canonical-keysort-json"
-description = "Deterministic Canonical JSON: recursive lexicographic sort of object keys at the serialization boundary, so values serialize byte-identically regardless of serde_json preserve_order."
+description = "Deterministic JSON key-sort: recursive lexicographic sort of object keys at the serialization boundary, so values serialize byte-identically regardless of serde_json preserve_order. Sorts keys only; not gibson042 or RFC 8785 Canonical JSON."
 authors = ["The canonical-keysort-json Authors"]
 keywords = ["json", "canonical", "deterministic", "serialization", "hashing"]
 categories = ["encoding", "data-structures"]
@@ -35,6 +35,15 @@ include = ["src/**", "Cargo.toml", "README.md", "LICENSE", "NOTICE", "CHANGELOG.
 
 [dependencies]
 serde_json = "1"
+
+# Tests run with `preserve_order` on, which is the adversarial mode this crate
+# exists for. Without it `serde_json::Map` is a BTreeMap that already iterates
+# in sorted order, so every test passes even if `canonicalize_value` is the
+# identity. Resolver 2 keeps dev-dependency features out of normal builds, so
+# the library a consumer links is unaffected.
+[dev-dependencies]
+serde_json = { version = "1", features = ["preserve_order"] }
+proptest = { version = "1", default-features = false, features = ["std"] }
 
 # Root package is a workspace-of-one so the forbid-unsafe lint applies and
 # spec-spine indexes this repo as a Cargo workspace.
