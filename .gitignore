@@ -23,6 +23,11 @@ node_modules/
 # OS / editor cruft
 .DS_Store
 
+# Local agent harness copies for Codex and other agents (not the governed
+# .claude/ kit, which is committed).
+/.agents/
+/.codex/
+
 # >>> statecraft managed ignores >>>
 # Managed by Statecraft. Entries above and below this block are yours and are
 # never reordered, rewritten or removed. Delete the whole block to opt out.
