@@ -1,0 +1,45 @@
+{
+  "mapping": {
+    "dependsOn": [
+      "000-canonical-keysort-json-bootstrap"
+    ],
+    "implementingPaths": [
+      {
+        "path": "vectors/",
+        "source": "spec-edge"
+      }
+    ],
+    "resolvedUnits": [
+      {
+        "locations": [
+          {
+            "file": "vectors/"
+          }
+        ],
+        "ownership": true,
+        "sourceField": "establishes",
+        "unit": {
+          "kind": "directory",
+          "path": "vectors/"
+        }
+      },
+      {
+        "locations": [
+          {
+            "file": "README.md"
+          }
+        ],
+        "ownership": false,
+        "sourceField": "references",
+        "unit": {
+          "kind": "file",
+          "path": "README.md"
+        }
+      }
+    ],
+    "specId": "002-conformance-vectors",
+    "specStatus": "draft"
+  },
+  "schemaVersion": "1.2.0",
+  "shardHash": "1d3cdeb8087baf3db9b864d720f0e9ff7789a5a8ea54836425c88a26cd048015"
+}
