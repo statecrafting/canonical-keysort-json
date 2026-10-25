@@ -69,8 +69,8 @@ spec-spine couple --base <base> --head HEAD
 ```
 
 `check` reads both committed trees without writing. Under the adopted
-0.28.0 contract, exits are 0 ok, 1 finding (including stale), 2 refused,
-3 usage, and 4 failed. The exact [meta] required_version pin is =0.28.0.
+0.31.0 contract, exits are 0 ok, 1 finding (including stale), 2 refused,
+3 usage, and 4 failed. The exact [meta] required_version pin is =0.31.0.
 The rendered `scripts/statecraft/gate.sh governance` defines the read-only
 chain used by `make gate` and managed CI; the local gate retains its explicit
 coupling check. The legacy govern.yml also invokes make gate. `make refresh`
@@ -267,3 +267,29 @@ existing exact spec-spine =0.28.0 pin and preserves the actual Rust code
 checks, all current governance parameters, and protected owner review.
 The revision-13 enrollment above remains the historical adoption record.
 The managed installer remains at .bin/spec-spine.
+
+## Managed governance refresh (2026-10-25)
+
+The owner directed the Statecraft profile revision 20 and spec-spine 0.31.0
+fleet rollout. This amendment adopts revision 20, rendered by statecraft-cli
+`21ee6bc`, and moves the exact spec-spine pin to =0.31.0 in the same change,
+because revision 20 withholds the whole profile while the pin does not admit
+its linked producer (spec-spine-core 0.31.0). It adds a required preflight
+job, job-level concurrency, failure summaries, the AI review stall watchdog
+and the rendered remote desired-state document. It preserves the actual Rust
+code checks, all current governance parameters, and protected owner review.
+The exit family is unchanged. The revision-14 refresh above remains the
+historical record.
+
+## Managed governance refresh (2026-10-28)
+
+Before the revision-20 refresh above merged, the owner moved the rollout to
+Statecraft profile revision 21 (renderer identity 29183723d833, plan
+659946e2f8fc53f11d94600f259581d680a3f6dca3e43d254774873dbabe0b5d), rendered
+by statecraft-cli `167a02f3ce69472c029bdd64d0bcd04421e3df75`. This amendment
+adopts revision 21 in the same change; the linked producer is still
+spec-spine-core 0.31.0, so the exact =0.31.0 pin is unchanged. Revision 21
+additionally publishes each AI review verdict as a `statecraft-ai-review`
+check run. All governance parameters, the actual Rust code checks, protected
+owner review and the adopted governance documents are preserved. The exit
+family is unchanged.
