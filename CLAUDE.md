@@ -95,7 +95,7 @@ governs the harness that keeps 000 honest. The compiled shard trees under
 entry are active, not forward-looking.
 
 Governance uses `.bin/spec-spine`, installed by `make tools`. The exact
-`[meta] required_version = "=0.28.0"` pin refuses mismatched binaries.
+`[meta] required_version = "=0.31.0"` pin refuses mismatched binaries.
 
 Read compiled artifacts only through `spec-spine` subcommands, never with
 `jq`, `grep`, `python`, `awk` or `sed` over the shard JSON

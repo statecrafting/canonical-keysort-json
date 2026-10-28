@@ -8,7 +8,7 @@ AGENTS.md standard. It is the single source for the init protocol: tooling that
 runs `/prime` reads the `## New Sessions` section to derive its plan.
 
 Governance uses `.bin/spec-spine`, installed by `make tools`. The exact
-`[meta] required_version = "=0.28.0"` pin rejects every mismatched binary.
+`[meta] required_version = "=0.31.0"` pin rejects every mismatched binary.
 Bootstrap spec: `specs/000-canonical-keysort-json-bootstrap/spec.md`.
 
 ## New Sessions

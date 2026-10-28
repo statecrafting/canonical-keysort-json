@@ -7,6 +7,6 @@
     "specRef": "000-canonical-keysort-json-bootstrap",
     "version": "0.1.1"
   },
-  "schemaVersion": "1.2.0",
+  "schemaVersion": "1.3.0",
   "shardHash": "4342a9f0de749425e19e5feec66ad44ee427c8ccce5583ebefe787fa466d8170"
 }
