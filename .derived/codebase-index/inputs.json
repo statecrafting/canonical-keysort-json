@@ -97,13 +97,16 @@
       "contentHash": "42ad827bbd53d8778989dc71097bbabb46a24d9635277fd6e7ea26733a60f8e6"
     },
     "AGENTS.md": {
-      "contentHash": "8defb311ae4ff5cb8b3fab35dbebc12d4db2e441addf2b0ccf0b832624e0c251"
+      "contentHash": "3b93fcb5a6581066babdfd046d02704051bc2438ca35d4d93ad9ad9d7665eaad"
     },
     "CLAUDE.md": {
-      "contentHash": "a0e89d5810761c931f35fd846bd820e948aa060cc279fb1be5bbbe8c41d05fd0"
+      "contentHash": "6090acbe5972f9847d63c18ccf896c79c77b6b92ce1d2312173200ee6a6f0590"
     },
     "Makefile": {
       "contentHash": "4a9c97e32a8c5a9f9439aa59338c7cd58b39480fc507a058b573847c1b065e1b"
+    },
+    "deny.toml": {
+      "contentHash": "e595b133261d82092c184604e584ab44627269cf38f2325f22c44bbb24bbf528"
     },
     "scripts/statecraft/ai-review.sh": {
       "contentHash": "2a76067ca818c15b393fe15208e4d1743ce55acda99af575c28734b415b12976"
@@ -118,7 +121,7 @@
       "contentHash": "87dd98d56ec17251d0cb2ed1152d3b63f816e6e8ae0a9d4df3e7325bc950bbaa"
     },
     "spec-spine.toml": {
-      "contentHash": "7fb8a7df8fd76277a3c1ef2857c1c94d23fbf3b3464fc2016c8b2e5439bca624"
+      "contentHash": "f3b822ecc278589aab984f8bddf049a0df3a62ddc8df14fd8e0368112cf5aaae"
     },
     "src/lib.rs": {
       "contentHash": "5749cdb81949668167e6dcdd166a026b985f9c022754277c021b3d5f0e8583a8"

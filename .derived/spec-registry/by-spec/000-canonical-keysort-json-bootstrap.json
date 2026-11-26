@@ -4,6 +4,7 @@
       "canonical-keysort-json"
     ],
     "created": "2026-07-12",
+    "declaresAcceptance": true,
     "establishes": [
       {
         "kind": "file",
@@ -59,5 +60,5 @@
     "title": "canonical-keysort-json bootstrap (deterministic JSON key-ordering library)"
   },
   "shardHash": "101b65b48660cacb22eb9878f3050b26f706e4aa164c8ec0a438d2aa5cc83457",
-  "specVersion": "1.10.0"
+  "specVersion": "1.11.0"
 }
