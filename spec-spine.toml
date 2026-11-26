@@ -23,7 +23,7 @@
 # `deny_unknown_fields`, so a binary predating spec 062 cannot deserialize this
 # key at all and exits 3 with a config error rather than a misleading 2.
 [meta]
-required_version = "=0.31.0"
+required_version = "=0.32.0"
 
 [manifest]
 # The crate carries `[package.metadata.canonical-keysort-json].spec = "NNN-slug"`.
@@ -68,6 +68,9 @@ extra_hashed_inputs = ["scripts/statecraft/**/*", ".statecraft/AGENTS.md", ".sta
   ".mcp.json",
   ".githooks/*.sh",
   "Makefile",
+  # The supply-chain policy profile revision 22 and later run cargo deny
+  # against; spec 001 claims it.
+  "deny.toml",
   # `.gitattributes` registers the merge driver on the shard globs, which is
   # behavior spec 001 sections 2 and 3 describe, so spec 001 claims the file.
   # A `file` unit carries no span and only span-backing files enter a shard

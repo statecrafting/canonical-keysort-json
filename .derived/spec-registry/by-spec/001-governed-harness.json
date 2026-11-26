@@ -4,6 +4,7 @@
       "canonical-keysort-json"
     ],
     "created": "2026-09-08",
+    "declaresAcceptance": true,
     "dependsOn": [
       "000-canonical-keysort-json-bootstrap"
     ],
@@ -50,6 +51,10 @@
       },
       {
         "kind": "file",
+        "path": "deny.toml"
+      },
+      {
+        "kind": "file",
         "path": ".gitattributes"
       },
       {
@@ -90,7 +95,7 @@
     "kind": "tooling",
     "risk": "medium",
     "sectionDigests": {
-      "001-the-governed-harness": "c6215f42b9d7a383ce02d8358a3092c1e881b4e9bcb1b4cfe3de9df1af97b427",
+      "001-the-governed-harness": "f3f0cba6e50a629e0140bdf58b21df3b17c27a68dcba49615f5de9dcaea1a2b6",
       "1-purpose": "4aad7f433669e8a19061f51d3bb0ffc6500a7a3e25a25642702f8753d6464623",
       "2-territory": "97b00d3abc8932559a18bac6551d84eed1362c09e0e8583e098002c55efdfd5b",
       "3-behavior": "2ecbe7c740a5a60df30469d66d4b894cda568d80a89f8e8b280a58c3b96d4de0",
@@ -100,7 +105,8 @@
       "managed-governance-enrollment-2026-10-02": "80de4704e3a13ae85148205d8d32395e7fd314a9da65ab5cc81ef72110dde2d6",
       "managed-governance-refresh-2026-10-02": "7737545343c205137aadee3d3fb98af067265048a4baa8309cf36dee6af5e3fe",
       "managed-governance-refresh-2026-10-25": "c4c3a0c5a43be618a9186bbb87218982869c726cb31b1203bafe0747ed2faff6",
-      "managed-governance-refresh-2026-10-28": "fd38cd75b17ec818442f34c8e82afedd9488b2afa86129529936c73b59007f8b"
+      "managed-governance-refresh-2026-10-28": "d1ee6dcdcbb97951797737e3af8d5fd00c7f05ed2496bea95655deca5ada12c4",
+      "revision-29-prerequisites-spec-spine-0-32-0-and-deny-toml-2026-11-26": "b13e56c0afafa431917916606624ffc4a70f294ba587e35994bf87ee02325978"
     },
     "sectionHeadings": [
       "001: The governed harness",
@@ -113,13 +119,14 @@
       "Managed governance enrollment (2026-10-02)",
       "Managed governance refresh (2026-10-02)",
       "Managed governance refresh (2026-10-25)",
-      "Managed governance refresh (2026-10-28)"
+      "Managed governance refresh (2026-10-28)",
+      "Revision 29 prerequisites: spec-spine 0.32.0 and deny.toml (2026-11-26)"
     ],
     "specPath": "specs/001-governed-harness/spec.md",
     "status": "approved",
     "summary": "This repository's own governance surface: the spec-spine gate chain, the committed .derived shard trees it compares against, the merge driver that keeps those shards mergeable, and the Claude Code session kit that constrains what an agent may do here. Spec 000 governs what the crate emits; this spec governs what the repository does to keep 000 honest. It exists because 000 section 4 became a normative cross-language contract while nothing mechanically checked that the corpus stating it stayed coherent with the code implementing it.\n",
     "title": "The governed harness (spec-spine self-governance and the session kit)"
   },
-  "shardHash": "5a492dcd5dffee021b6611193e2fc9f026c1ad7c0070fc7e6bd59e5b6d03d85f",
-  "specVersion": "1.10.0"
+  "shardHash": "8abb6926b287d2cba6b59d9353188c6d8dc49942613e258ad1c9316a5dc77d54",
+  "specVersion": "1.11.0"
 }
